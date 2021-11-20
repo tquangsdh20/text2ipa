@@ -6,3 +6,4 @@ pytest-cov==2.12.1
 mypy==0.910
 PySocks==1.7.1
 requests>=2.23.0
+bs4
