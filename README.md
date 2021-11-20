@@ -1,6 +1,6 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/tquangsdh20/text2ipa/master/.github/logo.svg">
-<img src="https://github.com/tquangsdh20/text2ipa/actions/workflows/test.yml/badge.svg?style=plastic"> <a href="https://app.codecov.io/gh/tquangsdh20/text2ipa/blob/af74004d58fb4cde15ea29b1184fc7a025ca9fc2/text2ipa/__main__.py"><img src="https://codecov.io/gh/tquangsdh20/text2ipa/branch/master/graphs/badge.svg?branch=master"></a> <img src="https://img.shields.io/github/license/tquangsdh20/text2ipa"> <img src="https://img.shields.io/github/issues-raw/tquangsdh20/text2ipa"> <img src="https://img.shields.io/pypi/implementation/text2ipa"> <img src="https://img.shields.io/badge/author-tquangsdh20-orange">
+<img src="https://github.com/tquangsdh20/text2ipa/actions/workflows/test.yml/badge.svg?style=plastic"> <a href="https://app.codecov.io/gh/tquangsdh20/text2ipa/blob/af74004d58fb4cde15ea29b1184fc7a025ca9fc2/text2ipa/__main__.py"><img src="https://codecov.io/gh/tquangsdh20/text2ipa/branch/master/graphs/badge.svg?branch=master"></a> <img src="https://img.shields.io/github/license/tquangsdh20/text2ipa"> <img src="https://img.shields.io/github/issues-raw/tquangsdh20/text2ipa"> <img src="https://img.shields.io/pypi/implementation/text2ipa"> <img src = "https://img.shields.io/pypi/pyversions/text2ipa"> <img src="https://img.shields.io/badge/author-tquangsdh20-orange">
 </p>
 
 
@@ -86,5 +86,6 @@ V1.0.0 : Create new with 2 functions `get_IPA()` and `get_IPAs()`
 V1.2.0 : Update comment and guideline in functions, fixed ERROR for setup with the other Python versions  
 V1.3.0 : Fixed MISSING install requires and update information for Python versions  
 V1.4.0 : Update building & testing for this package  
-
+V1.4.1 : Update format Python PEP517 for this package  
+V1.4.2 : Update coverage test for this package  
 <a href="https://github.com/tquangsdh20/text2ipa"><p align="center"><img src="https://img.shields.io/badge/Github-tquangsdh20-orange?style=social&logo=github"></p></a>
