@@ -4,7 +4,7 @@ import pytest
 
 
 def test_version():
-    assert __version__ == "1.4.2"
+    assert __version__ == "1.4.1"
 
 
 @pytest.mark.parametrize(
