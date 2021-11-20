@@ -1,6 +1,6 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/tquangsdh20/text2ipa/main/.github/logo.svg">
-<img src="https://github.com/tquangsdh20/text2ipa/actions/workflows/github-build.yml/badge.svg?style=plastic"> <a href="https://app.codecov.io/gh/tquangsdh20/text2ipa/blob/17f174a83a0a416100fadc9e209c1c8a88d74352/tests/test_text2ipa.py"><img src="https://codecov.io/gh/tquangsdh20/text2ipa/branch/main/graphs/badge.svg?branch=master"></a> <img src="https://img.shields.io/github/license/tquangsdh20/text2ipa"> <img src="https://img.shields.io/github/issues-raw/tquangsdh20/text2ipa"> <img src="https://img.shields.io/pypi/implementation/text2ipa"> <img src="https://img.shields.io/badge/author-tquangsdh20-orange">
+<img src="https://raw.githubusercontent.com/tquangsdh20/text2ipa/master/.github/logo.svg">
+<img src="https://github.com/tquangsdh20/text2ipa/actions/workflows/test.yml/badge.svg?style=plastic"> <a href="https://app.codecov.io/gh/tquangsdh20/text2ipa/blob/af74004d58fb4cde15ea29b1184fc7a025ca9fc2/text2ipa/__main__.py"><img src="https://codecov.io/gh/tquangsdh20/text2ipa/branch/master/graphs/badge.svg?branch=master"></a> <img src="https://img.shields.io/github/license/tquangsdh20/text2ipa"> <img src="https://img.shields.io/github/issues-raw/tquangsdh20/text2ipa"> <img src="https://img.shields.io/pypi/implementation/text2ipa"> <img src="https://img.shields.io/badge/author-tquangsdh20-orange">
 </p>
 
 
@@ -22,7 +22,7 @@ pip install text2ipa
 
 ## Features
 
-- Convert Engkish text to IPA using the [toPhonetic](https://tophonetics.com/)
+- Convert English text to IPA using the [toPhonetic](https://tophonetics.com/)
 - Two options Language English UK and English US
   
 ## Examples
