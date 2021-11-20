@@ -72,43 +72,48 @@ def get_IPAs(bulk: List[str], language: str, proxy: Any = None) -> List[str]:
     return list(retList[0:-1])
 
 
-def __handle_error_IPA(text: str,language: str, proxy: Any = None):
+def __handle_error_IPA(text: str, language: str, proxy: Any = None):
     try:
         res = get_IPA(text, language, proxy)
     except (
-            InvalidValue,
-            requests.exceptions.ConnectTimeout,
-            requests.exceptions.ReadTimeout,
-            requests.exceptions.ConnectionError,
-            ManyRequest
-    ) as e :
+        InvalidValue,
+        requests.exceptions.ConnectTimeout,
+        requests.exceptions.ReadTimeout,
+        requests.exceptions.ConnectionError,
+        ManyRequest,
+    ) as e:
         print(e)
     else:
         print(res)
 
-def __handle_error_IPAs(bulk: List[str],language: str, proxy: Any = None):
+
+def __handle_error_IPAs(bulk: List[str], language: str, proxy: Any = None):
     try:
         res = get_IPAs(bulk, language, proxy)
     except (
-            InvalidValue,
-            requests.exceptions.ConnectTimeout,
-            requests.exceptions.ReadTimeout,
-            requests.exceptions.ConnectionError,
-            ManyRequest
-    ) as e :
+        InvalidValue,
+        requests.exceptions.ConnectTimeout,
+        requests.exceptions.ReadTimeout,
+        requests.exceptions.ConnectionError,
+        ManyRequest,
+    ) as e:
         print(e)
     else:
         print(res)
+
 
 if __name__ == "__main__":
     text = "hello"
     bulk = ["university", "tomato"]
     languages = ["am", "br", "in"]
-    proxy = {'http': 'socks5://212.129.41.96:54321', 'https': 'socks5://212.129.41.96:54321'}
+    proxy = {
+        "http": "socks5://212.129.41.96:54321",
+        "https": "socks5://212.129.41.96:54321",
+    }
     for language in languages:
         __handle_error_IPA(text, language, proxy)
         __handle_error_IPAs(bulk, language, proxy)
 
     for index in range(50):
-        __handle_error_IPA(text, 'am', proxy)
-        __handle_error_IPAs(bulk, 'am', proxy)
+        __handle_error_IPA(text, "am", proxy)
+        __handle_error_IPAs(bulk, "am", proxy)
