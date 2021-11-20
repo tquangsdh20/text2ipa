@@ -79,7 +79,7 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
-
+pip-wheel-metadata/
 # Jupyter Notebook
 .ipynb_checkpoints
 

@@ -14,8 +14,8 @@ flake8 = "^3.9"
 tox = "^3.9"
 pytest-cov = "^2.12"
 mypy = "^0.910"
-bs4
-black
+bs4 = "^0.0"
+black = "^0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0","wheel","setuptools"]
