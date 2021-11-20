@@ -22,7 +22,7 @@ pip install text2ipa
 
 ## Features
 
-- Convert Engkish text to IPA
+- Convert Engkish text to IPA using the [toPhonetic](https://tophonetics.com/)
 - Two options Language English UK and English US
   
 ## Examples
