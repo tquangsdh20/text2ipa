@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "text2ipa"
+version = "1.4.1rc2"
+description = ""
+authors = ["Joseph Quang <tquangsdh20@hcmut.edu.vn>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+requests = "^2.23"
+flake8 = "^3.9"
+tox = "^3.9"
+pytest-cov = "^2.12"
+mypy = "^0.910"
+black = "^3.6"
+
+[build-system]
+requires = ["poetry-core>=1.0.0","wheel","setuptools"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+addopts = "--cov=slapping"
+testpaths = [
+    "tests",
+]
+
+[tool.mypy]
+mypy_path = "stubs"
+check_untyped_defs = true
+disallow_any_generics = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+no_implicit_reexport = true
+ignore_missing_imports = true
