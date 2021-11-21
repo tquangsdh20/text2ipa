@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/tquangsdh20/text2ipa/master/.github/logo.svg">
+<img src="https://raw.githubusercontent.com/tquangsdh20/text2ipa/master/.github/text2ipa.gif">
 <img src="https://github.com/tquangsdh20/text2ipa/actions/workflows/test.yml/badge.svg?style=plastic"> <a href="https://app.codecov.io/gh/tquangsdh20/text2ipa/blob/af74004d58fb4cde15ea29b1184fc7a025ca9fc2/text2ipa/__main__.py"><img src="https://codecov.io/gh/tquangsdh20/text2ipa/branch/master/graphs/badge.svg?branch=master"></a> <img src="https://img.shields.io/pypi/implementation/text2ipa"> <img src = "https://img.shields.io/pypi/pyversions/text2ipa"> <img src="https://img.shields.io/badge/author-tquangsdh20-orange">
 </p>
 
