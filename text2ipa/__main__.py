@@ -1,19 +1,70 @@
 import requests
 from bs4 import BeautifulSoup
 from typing import List, Any
+import logging
+import re
 
 
 class ManyRequest(Exception):
+    """Send many requests to get IPA"""
+
     ...
 
 
 class InvalidValue(Exception):
+    """Invalid Language"""
+
     ...
 
 
-VALID_LANGUAGE = ["am", "br"]
+class WordError(Exception):
+    """Not found the word in French dictionary"""
+
+    ...
+
+
+class ConnectionError(Exception):
+    """Not found the word in French dictionary"""
+
+    ...
+
+
+VALID_LANGUAGE = ["am", "br", "fr"]
 PAGE = "https://tophonetics.com/"
-ERROR_MSG = 'The Language input is invalid. Must be "am" or "br".'
+DICTIONARY = "https://dictionary.cambridge.org/dictionary/french-english"
+ERROR_MSG = 'The Language input is invalid. Must be "am", "br" or "fr".'
+
+
+def get_french_word(word: str, proxy: Any = None):
+    url: str
+    url = f"{DICTIONARY}/{word}"
+    headers = {"User-Agent": "Mozilla/5.0"}
+    try:
+        r = requests.get(url=url, headers=headers, timeout=5, proxies=proxy)
+    except (requests.HTTPError, requests.ConnectTimeout, requests.ConnectionError) as e:
+        raise ConnectionError(f"{e}")
+    soup = BeautifulSoup(r.text, "html.parser")
+    # with open("dummy.txt",'r',encoding='utf-8') as fp:
+    #     soup = BeautifulSoup(fp.read(),'html.parser')
+    # <span class="ipa dipa">
+    tag = soup.find("span", {"class": "ipa dipa"})
+    if tag is None:
+        raise WordError(f'Not found the word "{word}" in the dictionary.')
+    return tag.text
+
+
+def __get_french_ipa(text: str, proxy: Any = None):
+    words = re.findall("\\w+", text)
+    retStr: str = ""
+    for idx in range(len(words)):
+        try:
+            retStr += get_french_word(words[idx], proxy) + " "
+        except (WordError, ConnectionError) as e:
+            logging.warning(
+                f'Failed to convert the word "{words[idx]}" with message: {e}'
+            )
+            retStr += "????" + " "
+    return retStr.strip()
 
 
 def get_data(text: str, language: str, output_style: str):
@@ -29,91 +80,65 @@ def get_data(text: str, language: str, output_style: str):
     return retdata
 
 
-def get_IPA(text: str, language: str, proxy: Any = None) -> str:
-    if language not in VALID_LANGUAGE:
-
-        raise InvalidValue(ERROR_MSG)
+def __get_IPA_en(text: str, language: str, proxy: Any = None) -> str:
     data = get_data(text, language, "only_tr")
-    response = requests.post(PAGE, data=data, proxies=proxy, timeout=3)
+    try:
+        response = requests.post(PAGE, data=data, proxies=proxy, timeout=10)
+    except (requests.ConnectTimeout, requests.HTTPError, requests.ConnectionError) as e:
+        raise ConnectionError(f"{e}")
     soup = BeautifulSoup(response.text, "html.parser")
     tags = soup("div")
+    retStr: str
     for tag in tags:
         item = tag.get("id")
         if item == "transcr_output":
             if tag.text == "":
                 raise ManyRequest("Too many request")
             else:
-                retStr = tag.text
-    return str(retStr)
+                retStr = str(tag.text)
+    return retStr
+
+
+def get_IPA(text: str, language: str, proxy: Any = None) -> str:
+    retStr: str
+    if language == "fr":
+        retStr = __get_french_ipa(text, proxy)
+    elif language in ["br", "am"]:
+        retStr = __get_IPA_en(text, language, proxy)
+    else:
+        raise InvalidValue(ERROR_MSG)
+    return retStr
+
+
+def __get_IPAs_en(bulk: List[str], language: str, proxy: Any = None) -> List[str]:
+    # Convert bulk to string
+    texts: str = ""
+    for text in bulk:
+        texts += text + ";"
+    _res = __get_IPA_en(texts, language, proxy)
+    # Convert string to bulk
+    retList = _res.split(";")
+    return retList[0:-1]
+
+
+def __get_french_ipas(bulk: List[str], proxy: Any = None) -> List[str]:
+    # Convert bulk to string
+    texts: str = ""
+    for idx in range(len(bulk)):
+        text = __get_french_ipa(bulk[idx], proxy)
+        texts += text + ";"
+
+    # Convert string to bulk
+    retList = texts.split(";")
+    return retList[0:-1]
 
 
 def get_IPAs(bulk: List[str], language: str, proxy: Any = None) -> List[str]:
-    # Convert bulk to string
-    texts = ""
-    for text in bulk:
-        texts += text + ";"
-    # Check for LANGUAGE valid or not
-    if language not in VALID_LANGUAGE:
+    retList: List[str]
+    if language == "fr":
+        retList = __get_french_ipas(bulk, proxy)
+    elif language in ["br", "am"]:
+        retList = __get_IPAs_en(bulk, language, proxy)
+    else:
         raise InvalidValue(ERROR_MSG)
-    data = get_data(texts, language, "only_tr")
-    # Send request convert all string
-    response = requests.post(PAGE, data=data, proxies=proxy, timeout=3)
-    soup = BeautifulSoup(response.text, "html.parser")
-    tags = soup("div")
-    for tag in tags:
-        item = tag.get("id")
-        if item == "transcr_output":
-            if tag.text == "":
-                raise ManyRequest("Too many request")
-            else:
-                _res = tag.text
-    # Convert string to bulk
-    retList = _res.split(";")
-    return list(retList[0:-1])
-
-
-def __handle_error_IPA(text: str, language: str, proxy: Any = None):
-    try:
-        res = get_IPA(text, language, proxy)
-    except (
-        InvalidValue,
-        requests.exceptions.ConnectTimeout,
-        requests.exceptions.ReadTimeout,
-        requests.exceptions.ConnectionError,
-        ManyRequest,
-    ) as e:
-        print(e)
-    else:
-        print(res)
-
-
-def __handle_error_IPAs(bulk: List[str], language: str, proxy: Any = None):
-    try:
-        res = get_IPAs(bulk, language, proxy)
-    except (
-        InvalidValue,
-        requests.exceptions.ConnectTimeout,
-        requests.exceptions.ReadTimeout,
-        requests.exceptions.ConnectionError,
-        ManyRequest,
-    ) as e:
-        print(e)
-    else:
-        print(res)
-
-
-if __name__ == "__main__":
-    text = "hello"
-    bulk = ["university", "tomato"]
-    languages = ["am", "br", "in"]
-    proxy = {
-        "http": "socks5://212.129.41.96:54321",
-        "https": "socks5://212.129.41.96:54321",
-    }
-    for language in languages:
-        __handle_error_IPA(text, language, proxy)
-        __handle_error_IPAs(bulk, language, proxy)
-
-    for index in range(50):
-        __handle_error_IPA(text, "am", proxy)
-        __handle_error_IPAs(bulk, "am", proxy)
+    return retList
