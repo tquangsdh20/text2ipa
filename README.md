@@ -23,7 +23,7 @@ pip install text2ipa
 ## Features
 
 - Convert English text to IPA using the [toPhonetic](https://tophonetics.com/)
-- Two options Language English UK and English US
+- Three options Language English UK, English US and French
   
 ## Examples
 
@@ -35,22 +35,29 @@ pip install text2ipa
 #### Parameters:
 
 - `text` : The text you want to convert to IPA
-- `language` : Choose between English US and English UK ('am'/'br')
+- `language` : Choose between English US, English UK and French ('am', 'br' or 'fr')
 - `proxy` : Optional parameter  
 
 #### For instance:
 
 ```python
 from text2ipa import get_IPA
+# Convert 'hello world' to English US International Alphabet
 text = 'hello world'
 language = 'am'
-#Convert 'hello world' to English US International Alphabet
-ipa = get_IPA(text,language)
+ipa = get_IPA(text, language)
+# Convert 'je parle un peu français' to IPA
+text = 'je parle un peu français'
+language = 'fr'
+fr_ipa = get_IPA(text, language)
 print(ipa)
+print(fr_ipa)
 ```
 ```
 >> həˈloʊ wɜrld
+>> ʒə paʀle œ̃ pø fʀɑ̃̃sɛ
 ```
+
 ### Example 2: Convert a bulk
 
 #### Function: 
@@ -87,5 +94,6 @@ V1.2.0 : Update comment and guideline in functions, fixed ERROR for setup with t
 V1.3.0 : Fixed MISSING install requires and update information for Python versions  
 V1.4.0 : Update building & testing for this package  
 V1.4.1 : Fixed Error Import `get_IPA()` and `get_IPAs`  
+V2.0.1 : New feature working with French
 
 <a href="https://github.com/tquangsdh20/text2ipa"><p align="center"><img src="https://img.shields.io/badge/Github-tquangsdh20-orange?style=social&logo=github"></p></a>
