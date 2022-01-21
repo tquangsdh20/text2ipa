@@ -58,15 +58,6 @@ print(fr_ipa)
 >> ʒə paʀle œ̃ pø fʀɑ̃̃sɛ
 ```
 
-```python
-from text2ipa import get_IPA
-text = 'je parle un peu français'
-language = 'fr'
-#Convert 'hello world' to English US International Alphabet
-ipa = get_IPA(text,language)
-print(ipa)
-```
-
 ### Example 2: Convert a bulk
 
 #### Function: 
