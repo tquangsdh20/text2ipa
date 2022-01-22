@@ -28,10 +28,11 @@ class ConnectionError(Exception):
 
     ...
 
-
+SESSION = requests.Session()
 VALID_LANGUAGE = ["am", "br", "fr"]
 PAGE = "https://tophonetics.com/"
 DICTIONARY = "https://dictionary.cambridge.org/dictionary/french-english"
+FR2_DICTIONARY = "https://www.wordreference.com/fren"
 ERROR_MSG = 'The Language input is invalid. Must be "am", "br" or "fr".'
 
 
@@ -40,7 +41,7 @@ def get_french_word(word: str, proxy: Any = None):
     url = f"{DICTIONARY}/{word}"
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
-        r = requests.get(url=url, headers=headers, timeout=1.5, proxies=proxy)
+        r = SESSION.get(url=url, headers=headers, timeout=1.5, proxies=proxy)
     except (requests.HTTPError, requests.ConnectTimeout, requests.ConnectionError) as e:
         raise ConnectionError(f"{e}")
     soup = BeautifulSoup(r.text, "html.parser")
@@ -53,17 +54,53 @@ def get_french_word(word: str, proxy: Any = None):
     return tag.text
 
 
+def __text(mystr: str) -> str:
+    retStr: str = ""
+    retStr = mystr.replace("[","")
+    retStr = retStr.replace("]","")
+    if len(retStr.split(",")) > 1:
+        raise WordError("Many items")
+    return retStr
+
+def get_french_word2(word: str, proxy: Any = None):
+    url: str
+    url = f"{FR2_DICTIONARY}/{word}"
+    headers = {"User-Agent": "Mozilla/5.0"}
+    try:
+        r = SESSION.get(url=url, headers=headers, timeout=1.5, proxies=proxy)
+    except (requests.HTTPError, requests.ConnectTimeout, requests.ConnectionError) as e:
+        raise ConnectionError(f"{e}")
+    soup = BeautifulSoup(r.text, "html.parser")
+    # <span id='pronWR' class='pronWR' dir='ltr' style='white-space:nowrap;' title='Prononciation'>[sɥi]</span>
+    tag = soup.find("span", {"title": "Prononciation"})
+    if tag is None:
+        raise WordError(f'Not found the word "{word}" in the dictionary.')
+    return __text(tag.text)
+
 def __get_french_ipa(text: str, proxy: Any = None):
     words = re.findall("\\w+", text)
     retStr: str = ""
+    succes: bool = False
     for idx in range(len(words)):
         try:
-            retStr += get_french_word(words[idx], proxy) + " "
+            ipa = get_french_word2(words[idx], proxy)
+            success = True
+        except (WordError, ConnectionError):
+            success = False
+        
+        if succes: 
+            retStr += ipa + " "
+            continue
+        # If failed will retrieve the sub link
+        try:
+            ipa = get_french_word(words[idx], proxy)
         except (WordError, ConnectionError) as e:
             logging.warning(
                 f'Failed to convert the word "{words[idx]}" with message: {e}'
             )
-            retStr += "????" + " "
+            retStr += "[???]" + " "
+        else:
+            retStr += ipa + " "
     return retStr.strip()
 
 
@@ -83,7 +120,7 @@ def get_data(text: str, language: str, output_style: str):
 def __get_IPA_en(text: str, language: str, proxy: Any = None) -> str:
     data = get_data(text, language, "only_tr")
     try:
-        response = requests.post(PAGE, data=data, proxies=proxy, timeout=10)
+        response = SESSION.post(PAGE, data=data, proxies=proxy, timeout=10)
     except (requests.ConnectTimeout, requests.HTTPError, requests.ConnectionError) as e:
         raise ConnectionError(f"{e}")
     soup = BeautifulSoup(response.text, "html.parser")

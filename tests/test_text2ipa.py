@@ -53,7 +53,7 @@ class Test_ConnectionError(unittest.TestCase):
 
     def test_WordError_wanrining(self):
         text = get_IPA("hello", "fr")
-        self.assertEqual(text, "????")
+        self.assertEqual(text, "[???]")
 
     def test_InvalidValue(self):
         with self.assertRaises(InvalidValue):
