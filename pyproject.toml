@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "text2ipa"
-version = "2.0.1rc0"
+version = "2.0.1"
 description = "Convert text to IPA for English and French"
 authors = ["Joseph Quang <tquangsdh20@hcmut.edu.vn>"]
 readme = "README.md"
@@ -11,7 +11,7 @@ classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Development Status :: 5 - Production/Stable",
     "Operating System :: OS Independent",
-    "License :: OSI Approved :: Apache Software License :: 2.0",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
