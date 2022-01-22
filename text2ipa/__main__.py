@@ -28,6 +28,7 @@ class ConnectionError(Exception):
 
     ...
 
+
 SESSION = requests.Session()
 VALID_LANGUAGE = ["am", "br", "fr"]
 PAGE = "https://tophonetics.com/"
@@ -56,11 +57,12 @@ def get_french_word(word: str, proxy: Any = None):
 
 def __text(mystr: str) -> str:
     retStr: str = ""
-    retStr = mystr.replace("[","")
-    retStr = retStr.replace("]","")
+    retStr = mystr.replace("[", "")
+    retStr = retStr.replace("]", "")
     if len(retStr.split(",")) > 1:
         raise WordError("Many items")
     return retStr
+
 
 def get_french_word2(word: str, proxy: Any = None):
     url: str
@@ -71,24 +73,25 @@ def get_french_word2(word: str, proxy: Any = None):
     except (requests.HTTPError, requests.ConnectTimeout, requests.ConnectionError) as e:
         raise ConnectionError(f"{e}")
     soup = BeautifulSoup(r.text, "html.parser")
-    # <span id='pronWR' class='pronWR' dir='ltr' style='white-space:nowrap;' title='Prononciation'>[sɥi]</span>
+    # <span title='Prononciation'>[sɥi]</span>
     tag = soup.find("span", {"title": "Prononciation"})
     if tag is None:
         raise WordError(f'Not found the word "{word}" in the dictionary.')
     return __text(tag.text)
 
+
 def __get_french_ipa(text: str, proxy: Any = None):
     words = re.findall("\\w+", text)
     retStr: str = ""
-    succes: bool = False
+    success: bool = False
     for idx in range(len(words)):
         try:
             ipa = get_french_word2(words[idx], proxy)
             success = True
         except (WordError, ConnectionError):
             success = False
-        
-        if succes: 
+
+        if success:
             retStr += ipa + " "
             continue
         # If failed will retrieve the sub link
