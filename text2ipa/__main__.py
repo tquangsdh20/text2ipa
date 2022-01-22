@@ -40,7 +40,7 @@ def get_french_word(word: str, proxy: Any = None):
     url = f"{DICTIONARY}/{word}"
     headers = {"User-Agent": "Mozilla/5.0"}
     try:
-        r = requests.get(url=url, headers=headers, timeout=5, proxies=proxy)
+        r = requests.get(url=url, headers=headers, timeout=1.5, proxies=proxy)
     except (requests.HTTPError, requests.ConnectTimeout, requests.ConnectionError) as e:
         raise ConnectionError(f"{e}")
     soup = BeautifulSoup(r.text, "html.parser")
