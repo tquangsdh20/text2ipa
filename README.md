@@ -66,7 +66,7 @@ print(fr_ipa)
 #### Parameters:
 
 - `bulk` : The list of text want to convert to IPA
-- `language` : Choose between English US and English UK ('am'/'br')
+- `language` : Choose between English US and English UK ('am', 'br' or 'fr')
 - `proxy` : Optional parameter  
 
 #### For instance:
