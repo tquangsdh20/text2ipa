@@ -1,5 +1,5 @@
 from text2ipa import __version__
-from text2ipa import get_IPA, get_IPAs, ConnectionError, InvalidValue
+from text2ipa import get_IPA, get_IPAs, InvalidValue
 import pytest
 import unittest
 
