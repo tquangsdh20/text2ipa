@@ -88,15 +88,16 @@ def __get_IPA_en(text: str, language: str, proxy: Any = None) -> str:
         raise ConnectionError(f"{e}")
     soup = BeautifulSoup(response.text, "html.parser")
     tags = soup("div")
-    retStr: str
+    retStr: str = ""  # Provide an initial value here
     for tag in tags:
         item = tag.get("id")
         if item == "transcr_output":
             if tag.text == "":
-                raise ManyRequest("Too many request")
+                raise ManyRequest("Too many requests")
             else:
                 retStr = str(tag.text)
     return retStr
+
 
 
 def get_IPA(text: str, language: str, proxy: Any = None) -> str:
