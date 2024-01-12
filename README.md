@@ -71,7 +71,7 @@ print(fr_ipa)
 ```python
 from text2ipa import get_IPAs
 bulk = ['how are you?','how it\'s going?','that\'s good']
-language = 'br'
+language = 'en'
 # Convert a list of text to English UK IPA
 IPAs = get_IPAs(bulk,language)
 for ipa in IPAs:
